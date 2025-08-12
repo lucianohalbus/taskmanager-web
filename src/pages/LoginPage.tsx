@@ -15,60 +15,68 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function LoginPage() {
-  const { register, handleSubmit, formState: { errors } } =
+    const { register, handleSubmit, formState: { errors } } =
     useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const { loginSuccess } = useAuth();
-  const navigate = useNavigate();
+    const { loginSuccess } = useAuth();
+    const navigate = useNavigate();
 
-    const { mutate, isPending, isError } = useMutation({
+    const { mutate, isPending, isError, error } = useMutation({
     mutationFn: (data: AuthLoginDto) => login(data),
-    onSuccess: (res) => {
-        loginSuccess(res.token, res.user);
-        navigate("/", { replace: true });
-    }
+        onSuccess: (res) => {
+            loginSuccess(res.token, res.user);
+            navigate("/", { replace: true });
+        }
     });
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit((v) => mutate(v))}
-        className="w-full max-w-sm bg-white p-6 rounded-xl shadow"
-      >
-        <h1 className="text-2xl font-semibold mb-4">Entrar</h1>
+    {isError && (
+    <p className="text-red-600 text-sm mb-2">
+        { (error as any)?.response?.data ?? "Credenciais inválidas." }
+    </p>
+    )}
 
-        <label className="block mb-2 text-sm">E-mail ou usuário</label>
-        <input
-          className="w-full border p-2 rounded mb-1"
-          {...register("identifier")}
-          placeholder="ex: joao@exemplo.com"
-        />
-        {errors.identifier && (
-          <p className="text-red-600 text-sm mb-2">{errors.identifier.message}</p>
-        )}
+    console.log("BASE:", import.meta.env.VITE_API_BASE_URL);
 
-        <label className="block mb-2 text-sm mt-2">Senha</label>
-        <input
-          type="password"
-          className="w-full border p-2 rounded mb-1"
-          {...register("password")}
-          placeholder="••••••••"
-        />
-        {errors.password && (
-          <p className="text-red-600 text-sm mb-2">{errors.password.message}</p>
-        )}
-
-        {isError && (
-          <p className="text-red-600 text-sm mb-2">Credenciais inválidas.</p>
-        )}
-
-        <button
-        disabled={isPending}
-        className="w-full mt-3 py-2 rounded bg-black text-white"
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <form
+            onSubmit={handleSubmit((v) => mutate(v))}
+            className="w-full max-w-sm bg-white p-6 rounded-xl shadow"
         >
-        {isPending ? "Entrando..." : "Entrar"}
-        </button>
-      </form>
-    </div>
-  );
+            <h1 className="text-2xl font-semibold mb-4">Entrar</h1>
+
+            <label className="block mb-2 text-sm">E-mail ou usuário</label>
+            <input
+            className="w-full border p-2 rounded mb-1"
+            {...register("identifier")}
+            placeholder="ex: joao@exemplo.com"
+            />
+            {errors.identifier && (
+            <p className="text-red-600 text-sm mb-2">{errors.identifier.message}</p>
+            )}
+
+            <label className="block mb-2 text-sm mt-2">Senha</label>
+            <input
+            type="password"
+            className="w-full border p-2 rounded mb-1"
+            {...register("password")}
+            placeholder="••••••••"
+            />
+            {errors.password && (
+            <p className="text-red-600 text-sm mb-2">{errors.password.message}</p>
+            )}
+
+            {isError && (
+            <p className="text-red-600 text-sm mb-2">Credenciais inválidas.</p>
+            )}
+
+            <button
+            disabled={isPending}
+            className="w-full mt-3 py-2 rounded bg-black text-white"
+            >
+            {isPending ? "Entrando..." : "Entrar"}
+            </button>
+        </form>
+        </div>
+    );
 }
