@@ -2,6 +2,7 @@ import { createContext, useEffect, useMemo, useState } from "react";
 import type { AuthUser } from "../api/types";
 import { setAuthToken } from "../api/axios";
 import { isTokenValid } from "./jwt";
+import { useQueryClient } from "@tanstack/react-query";
 
 type AuthContextType = {
   user: AuthUser | null;
@@ -16,8 +17,8 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser]   = useState<AuthUser | null>(null);
+  const qc = useQueryClient();
 
-  // Bootstrap com verificação de validade do JWT
   useEffect(() => {
     const savedToken = localStorage.getItem("tm_token");
     const savedUser  = localStorage.getItem("tm_user");
@@ -35,7 +36,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }
   }, []);
 
-  // Mantém axios Authorization sincronizado
   useEffect(() => { setAuthToken(token); }, [token]);
 
   const loginSuccess = (tk: string, u: AuthUser) => {
@@ -44,6 +44,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     localStorage.setItem("tm_token", tk);
     localStorage.setItem("tm_user", JSON.stringify(u));
     setAuthToken(tk);
+    qc.clear();
   };
 
   const logout = () => {
@@ -52,7 +53,21 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     localStorage.removeItem("tm_token");
     localStorage.removeItem("tm_user");
     setAuthToken(null);
+    qc.clear();
   };
+
+  const channel = new BroadcastChannel("auth");
+    useEffect(() => {
+    const onMsg = (ev: MessageEvent) => {
+        if (ev.data?.type === "logout") {
+        setToken(null); setUser(null); setAuthToken(null); qc.clear();
+        }
+    };
+    channel.addEventListener("message", onMsg);
+    return () => channel.removeEventListener("message", onMsg);
+  }, [qc]);
+
+  channel.postMessage({ type: "logout" });
 
   const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
 
