@@ -1,17 +1,17 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import ProtectedRoute from "../auth/ProtectedRoute";
-
-// placeholder da Home protegida
-function Home() {
-  return <h1 className="p-6 text-2xl">Logado! 🚀</h1>;
-}
+import TasksPage from "../pages/TasksPage"; // ⬅️ import tasks page
 
 export const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
   {
     path: "/",
     element: <ProtectedRoute />,
-    children: [{ index: true, element: <Home /> }]
+    children: [
+      { index: true, element: <TasksPage /> }, // ⬅️ TasksPage as protected initial route
+    ],
   },
+  { path: "*", element: <Navigate to="/" replace /> }, // optional: fallback
 ]);
+
