@@ -31,7 +31,6 @@ export interface CreateTaskDto {
 
 export type UpdateTaskDto = Partial<CreateTaskDto>;
 
-
 export type ApiProblemDetails = {
   type?: string;
   title?: string;
