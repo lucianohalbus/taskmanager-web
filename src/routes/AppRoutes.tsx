@@ -4,12 +4,14 @@ import ProtectedRoute from "../auth/ProtectedRoute";
 import LoginPage from "../pages/LoginPage";
 import TasksPage from "../pages/TasksPage";
 import ProtectedShell from "../layouts/ProtectedShell";
+import RegisterPage from "../pages/RegisterPage";
 
 export const router = createBrowserRouter([
   {
     element: <AppRoot />, 
     children: [
       { path: "/login", element: <LoginPage /> },
+      { path: "/register", element: <RegisterPage /> },
       {
         path: "/",
         element: <ProtectedRoute />,
@@ -23,5 +25,3 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
-
-
