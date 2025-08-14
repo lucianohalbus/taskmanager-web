@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import ProtectedRoute from "../auth/ProtectedRoute";
-import TasksPage from "../pages/TasksPage"; // ⬅️ import tasks page
+import TasksPage from "../pages/TasksPage";
+import ProtectedShell from "../layouts/ProtectedShell";
 
 export const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
@@ -9,9 +10,14 @@ export const router = createBrowserRouter([
     path: "/",
     element: <ProtectedRoute />,
     children: [
-      { index: true, element: <TasksPage /> }, // ⬅️ TasksPage as protected initial route
+      {
+        element: <ProtectedShell />, 
+        children: [
+          { index: true, element: <TasksPage /> },
+        ],
+      },
     ],
   },
-  { path: "*", element: <Navigate to="/" replace /> }, // optional: fallback
-]);
 
+  { path: "*", element: <Navigate to="/" replace /> },
+]);

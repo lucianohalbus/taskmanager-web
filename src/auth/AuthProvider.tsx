@@ -47,16 +47,18 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     qc.clear();
   };
 
-  const logout = () => {
+    const channel = new BroadcastChannel("auth");
+
+    const logout = () => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("tm_token");
     localStorage.removeItem("tm_user");
     setAuthToken(null);
     qc.clear();
-  };
+    channel.postMessage({ type: "logout" }); // ✅ só quando o usuário realmente sair
+    };
 
-  const channel = new BroadcastChannel("auth");
     useEffect(() => {
     const onMsg = (ev: MessageEvent) => {
         if (ev.data?.type === "logout") {
