@@ -24,8 +24,10 @@ export default function LoginPage() {
     const { mutate, isPending, isError, error } = useMutation({
     mutationFn: (data: AuthLoginDto) => login(data),
         onSuccess: (res) => {
-            loginSuccess(res.token, res.user);
-            navigate("/", { replace: true });
+        loginSuccess(res.token, res.user);
+            requestAnimationFrame(() => {
+                navigate("/", { replace: true });
+            });
         }
     });
 

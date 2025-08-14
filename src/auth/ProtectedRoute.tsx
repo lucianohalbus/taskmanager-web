@@ -1,11 +1,15 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./useAuth";
+import { isTokenValid } from "./jwt";
 
 export default function ProtectedRoute() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, token } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  const lsToken = typeof window !== "undefined" ? localStorage.getItem("tm_token") : null;
+  const ok = isAuthenticated || isTokenValid(token) || isTokenValid(lsToken);
+
+  if (!ok) {
     return (
       <Navigate
         to="/login"
@@ -14,7 +18,6 @@ export default function ProtectedRoute() {
       />
     );
   }
+
   return <Outlet />;
 }
-
-
