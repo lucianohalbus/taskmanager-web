@@ -40,6 +40,20 @@ export type ApiProblemDetails = {
   traceId?: string;
 };
 
+export type RegisterDto = {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+};
+
+export type RegisterResponse = {
+  id: number;
+  name: string;
+  email: string;
+  username: string;
+};
+
 export function isProblemDetails(x: unknown): x is ApiProblemDetails {
   return !!x && typeof x === "object" &&
     ("title" in (x as any) || "status" in (x as any) || "errors" in (x as any));
