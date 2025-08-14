@@ -1,23 +1,27 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
+import AppRoot from "../layouts/AppRoot";
 import ProtectedRoute from "../auth/ProtectedRoute";
+import LoginPage from "../pages/LoginPage";
 import TasksPage from "../pages/TasksPage";
 import ProtectedShell from "../layouts/ProtectedShell";
 
 export const router = createBrowserRouter([
-  { path: "/login", element: <LoginPage /> },
   {
-    path: "/",
-    element: <ProtectedRoute />,
+    element: <AppRoot />, 
     children: [
+      { path: "/login", element: <LoginPage /> },
       {
-        element: <ProtectedShell />, 
+        path: "/",
+        element: <ProtectedRoute />,
         children: [
-          { index: true, element: <TasksPage /> },
+          { element: <ProtectedShell />, children: [
+            { index: true, element: <TasksPage /> },
+          ]},
         ],
       },
+      { path: "*", element: <Navigate to="/" replace /> },
     ],
   },
-
-  { path: "*", element: <Navigate to="/" replace /> },
 ]);
+
+
