@@ -5,22 +5,31 @@ import LoginPage from "../pages/LoginPage";
 import TasksPage from "../pages/TasksPage";
 import ProtectedShell from "../layouts/ProtectedShell";
 import RegisterPage from "../pages/RegisterPage";
+import AuthLayout from "../layouts/AuthLayout"; // ⬅️ novo
 
 export const router = createBrowserRouter([
   {
-    element: <AppRoot />, 
+    element: <AppRoot />,
     children: [
-      { path: "/login", element: <LoginPage /> },
-      { path: "/register", element: <RegisterPage /> },
+      {
+        element: <AuthLayout />,
+        children: [
+          { path: "/login", element: <LoginPage /> },
+          { path: "/register", element: <RegisterPage /> },
+        ],
+      },
+
       {
         path: "/",
         element: <ProtectedRoute />,
         children: [
-          { element: <ProtectedShell />, children: [
-            { index: true, element: <TasksPage /> },
-          ]},
+          {
+            element: <ProtectedShell />,
+            children: [{ index: true, element: <TasksPage /> }],
+          },
         ],
       },
+
       { path: "*", element: <Navigate to="/" replace /> },
     ],
   },
