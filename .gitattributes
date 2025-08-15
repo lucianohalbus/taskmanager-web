@@ -1,0 +1,46 @@
+
+# =====================================
+# End-of-Line (EOL) configuration
+# =====================================
+# Always store LF in the repository, regardless of the OS
+* text=auto eol=lf
+
+# =====================================
+# Programming languages and text formats
+# =====================================
+*.js    text eol=lf
+*.jsx   text eol=lf
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.css   text eol=lf
+*.scss  text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.env   text eol=lf
+*.txt   text eol=lf
+
+# =====================================
+# Binary files (do not change EOL)
+# =====================================
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.svg   binary
+*.mp4   binary
+*.mp3   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
+
+# =====================================
+# Other important formats
+# =====================================
+*.lock  text eol=lf
+package-lock.json text eol=lf
+yarn.lock text eol=lf
