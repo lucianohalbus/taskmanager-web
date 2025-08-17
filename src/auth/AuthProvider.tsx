@@ -69,8 +69,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     return () => channel.removeEventListener("message", onMsg);
   }, [qc]);
 
-  channel.postMessage({ type: "logout" });
-
   const isAuthenticated = useMemo(() => isTokenValid(token), [token]);
 
   const value = useMemo(

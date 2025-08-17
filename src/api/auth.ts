@@ -1,15 +1,12 @@
-
 import api from "./axios";
 import type { AuthLoginDto, AuthResponse, RegisterDto, RegisterResponse } from "./types";
 
-// AuthLoginDto sends { identifier, password }.
-// Backend waits { Email, Password } -> map here.
 export async function login(data: AuthLoginDto): Promise<AuthResponse> {
   const payload = {
-    Email: data.identifier,   // ← sent the entered email
-    Password: data.password,
+    identifier: data.identifier,
+    password: data.password,
   };
-  const { data: res } = await api.post<AuthResponse>("/user/login", payload);
+  const { data: res } = await api.post<AuthResponse>("/auth/login", payload); // ✅ corrigido
   return res;
 }
 
