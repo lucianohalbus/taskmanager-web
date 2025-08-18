@@ -5,11 +5,14 @@ This project was created to learn and practice a modern front-end development st
 
 ---
 
-## 📸 Preview
+## 📸 Login Page Preview
 
 ![Home screen](./docs/taskmanager-web-image.png)
 
 ---
+
+## 📸 Task Items Page Preview
+![Home screen](./docs/taskItem-image.png)
 
 ## 🚀 Technologies Used
 
