@@ -9,9 +9,9 @@ export default function TasksPage() {
   return (
     <div className="mx-auto max-w-3xl p-6">
       <header className="mb-6">
-        <h1 className="text-2xl font-semibold">Minhas Tasks</h1>
+        <h1 className="text-2xl font-semibold">My Tasks</h1>
         <p className="text-sm text-gray-600">
-          Crie, edite, conclua e exclua tarefas. Atualizações são otimistas.
+          Create, edit, complete, and delete tasks. Updates are optimistic.
         </p>
       </header>
 

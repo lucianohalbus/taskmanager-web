@@ -12,7 +12,9 @@ export default function TaskRow({ task, onEdit }: Props) {
 
   const onToggle = () => toggle(task);
   const onDelete = () => {
-    if (confirm(`Excluir "${task.title}"?`)) del.mutate(task.id);
+    if (confirm(`Are you sure you want to delete the task "${task.title}"?`)) {
+      del.mutate(task.id);
+    }
   };
 
   return (
@@ -40,14 +42,14 @@ export default function TaskRow({ task, onEdit }: Props) {
           onClick={() => onEdit(task)}
           className="rounded border px-3 py-1 text-sm"
         >
-          Editar
+          Edit
         </button>
         <button
           onClick={onDelete}
           disabled={del.isPending}
           className="rounded bg-red-600 px-3 py-1 text-sm text-white disabled:opacity-60"
         >
-          {del.isPending ? "Excluindo..." : "Excluir"}
+          {del.isPending ? "Deleting..." : "Delete"}
         </button>
       </div>
     </li>

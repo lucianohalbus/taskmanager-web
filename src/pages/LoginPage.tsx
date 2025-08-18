@@ -106,7 +106,7 @@ export default function LoginPage() {
               aria-describedby={errors.password ? `${formId}-password-error` : undefined}
               {...register("password")}
             />
-            <button
+            <button 
               type="button"
               onClick={() => setShow(v => !v)}
               className="absolute inset-y-0 right-0 flex items-center pr-2 text-zinc-500 hover:text-zinc-800"

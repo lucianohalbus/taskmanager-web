@@ -1,10 +1,8 @@
-import api from "./axios"; // ajuste se seu axios exporta { api } ao invés de default
+import api from "./axios"; 
 import type { TaskItem, CreateTaskDto, UpdateTaskDto } from "./types";
 
 const BASE = "/taskitem";
 
-// --- Helpers de normalização ---
-// Converte o objeto vindo da API para nosso modelo TaskItem estável
 function normalizeTask(raw: any): TaskItem {
   const id =
     raw?.id ?? raw?.taskItemId ?? raw?.Id;

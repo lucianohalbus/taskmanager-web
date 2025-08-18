@@ -6,7 +6,7 @@ import type { CreateTaskDto, TaskItem } from "../../api/types";
 import { useCreateTask, useUpdateTask, apiErrorMessage } from "./hooks";
 
 const schema = z.object({
-  title: z.string().min(1, "Informe um título"),
+  title: z.string().min(1, "Enter a title"),
   description: z.string().optional(),
   completed: z.boolean().optional(),
 });
@@ -70,10 +70,10 @@ export default function TaskForm({ initial, onSaved, onCancelEdit }: Props) {
       className="rounded-xl border bg-white p-4 shadow-sm"
     >
       <div className="mb-2">
-        <label className="block text-sm font-medium">Título</label>
+        <label className="block text-sm font-medium">Title</label>
         <input
           className="mt-1 w-full rounded border px-3 py-2"
-          placeholder="Ex.: Comprar café"
+          placeholder="E.g.: Buy coffee"
           {...register("title")}
         />
         {errors.title && (
@@ -82,11 +82,11 @@ export default function TaskForm({ initial, onSaved, onCancelEdit }: Props) {
       </div>
 
       <div className="mb-2">
-        <label className="block text-sm font-medium">Descrição (opcional)</label>
+        <label className="block text-sm font-medium">Description (optional)</label>
         <textarea
           className="mt-1 w-full rounded border px-3 py-2"
           rows={3}
-          placeholder="Detalhes da tarefa..."
+          placeholder="Task details..."
           {...register("description")}
         />
       </div>
@@ -94,7 +94,7 @@ export default function TaskForm({ initial, onSaved, onCancelEdit }: Props) {
       {isEditing && (
         <label className="mb-3 inline-flex items-center gap-2 text-sm">
           <input type="checkbox" className="size-4" {...register("completed")} />
-          Marcar como concluída
+          Mark as completed
         </label>
       )}
 
@@ -109,8 +109,8 @@ export default function TaskForm({ initial, onSaved, onCancelEdit }: Props) {
           className="rounded bg-black px-4 py-2 text-white disabled:opacity-60"
         >
           {isEditing
-            ? (updateMut.isPending ? "Salvando..." : "Salvar alterações")
-            : (createMut.isPending ? "Adicionando..." : "Adicionar")}
+            ? (updateMut.isPending ? "Saving..." : "Save changes")
+            : (createMut.isPending ? "Adding..." : "Add")}
         </button>
 
         {isEditing && (
@@ -119,7 +119,7 @@ export default function TaskForm({ initial, onSaved, onCancelEdit }: Props) {
             onClick={onCancelEdit}
             className="rounded border px-4 py-2"
           >
-            Cancelar
+            Cancel
           </button>
         )}
       </div>

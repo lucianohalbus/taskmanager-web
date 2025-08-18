@@ -9,10 +9,10 @@ import { useAuth } from "../auth/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 
 const schema = z.object({
-  name: z.string().min(1, "Informe seu nome"),
-  email: z.string().email("E-mail inválido"),
-  username: z.string().min(3, "Mínimo 3 caracteres"),
-  password: z.string().min(6, "Mínimo 6 caracteres"),
+  name: z.string().min(1, "Enter your name"),
+  email: z.string().email("Invalid e-mail"),
+  username: z.string().min(3, "Minimum 3 characters"),
+  password: z.string().min(6, "Minimum 6 characters"),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -37,7 +37,7 @@ export default function RegisterPage() {
       };
       const res = await login(creds);
 
-      // 3) salva token/user e navega para /
+      // save token/user and navigate to /
       loginSuccess(res.token, res.user);
       requestAnimationFrame(() => navigate("/", { replace: true }));
     } catch (e) {
@@ -54,9 +54,9 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm bg-white p-6 rounded-xl shadow">
-        <h1 className="text-2xl font-semibold mb-4">Criar conta</h1>
+        <h1 className="text-2xl font-semibold mb-4">Create Account</h1>
 
-        <label className="block text-sm">Nome</label>
+        <label className="block text-sm">Name</label>
         <input className="w-full border p-2 rounded mb-1" {...register("name")} />
         {errors.name && <p className="text-red-600 text-sm mb-2">{errors.name.message}</p>}
 
@@ -64,27 +64,28 @@ export default function RegisterPage() {
         <input className="w-full border p-2 rounded mb-1" type="email" {...register("email")} />
         {errors.email && <p className="text-red-600 text-sm mb-2">{errors.email.message}</p>}
 
-        <label className="block text-sm mt-2">Usuário</label>
+        <label className="block text-sm mt-2">Username</label>
         <input className="w-full border p-2 rounded mb-1" {...register("username")} />
         {errors.username && <p className="text-red-600 text-sm mb-2">{errors.username.message}</p>}
 
-        <label className="block text-sm mt-2">Senha</label>
+        <label className="block text-sm mt-2">Password</label>
         <input className="w-full border p-2 rounded mb-1" type="password" {...register("password")} />
         {errors.password && <p className="text-red-600 text-sm mb-2">{errors.password.message}</p>}
 
         {registerMut.isError && (
-          <p className="text-red-600 text-sm mb-2">{apiMsg ?? "Falha ao registrar."}</p>
+          <p className="text-red-600 text-sm mb-2">{apiMsg ?? "Failed to register."}</p>
         )}
 
-        <button
+        <button 
+          type="submit"
           disabled={registerMut.isPending}
           className="w-full mt-3 py-2 rounded bg-black text-white disabled:opacity-60"
         >
-          {registerMut.isPending ? "Criando..." : "Criar conta"}
+          {registerMut.isPending ? "Creating..." : "Create Account"}
         </button>
 
         <p className="mt-3 text-sm text-gray-600">
-          Já tem conta? <Link to="/login" className="text-black underline">Entrar</Link>
+          Already have an account? <Link to="/login" className="text-black underline">Sign in</Link>
         </p>
       </form>
     </div>
